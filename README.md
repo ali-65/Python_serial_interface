@@ -1,10 +1,10 @@
-# python串口调试程序
+# Serial port Debugger 
 
-* 本程序主要是用来调试串口的，由于写的比较匆忙，所以程序中还有很多问题，如果你对这个感兴趣，欢迎一起来完善它。
+* for Hardware Emulator and serial port debugging 
 
-* CSDN博客地址：[工程解析](https://blog.csdn.net/CHQC388/article/details/104292183)
+* my blog for electronic eng experience and programming language to persian : [my electronic exprience](https://myelectronicexperience.blogspot.com)
 
-* 博客园地址：[工程解析](https://www.cnblogs.com/zhicungaoyuan-mingzhi/p/12303229.html)
+* this project page in my blog : [نوشتن اینترفیس سریال با زبان پایتون](https://myelectronicexperience.blogspot.com/2023/02/blog-post.html)
 
   
 
