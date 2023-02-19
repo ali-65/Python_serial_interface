@@ -1,16 +1,18 @@
 '''
 @ author: summer
-@ tools: pycharm 
-@ content: 实现串口通讯主类
-@ date: 2020.2.12
+@ editor: Ali
+@ tools: VSCode 
+@ content: Realize the main class of serial communication
+@ date: 2023.2.19
 '''
 import tkinter
 from tkinter import ttk
-from SerialClass import SerialAchieve   # 导入串口通讯类
+#root.iconbitmap("icon.ico")
+from SerialClass import SerialAchieve   # Import serial communication class
 
 class MainSerial:
     def __init__(self):
-        # 定义串口变量
+        # Define serial variables
         self.port = None
         self.band = None
         self.check = None
@@ -18,162 +20,163 @@ class MainSerial:
         self.stop = None
         self.myserial = None
 
-        # 初始化窗体
+        # Initialize the form
         self.mainwin = tkinter.Tk()
-        self.mainwin.title("串口调试工具")
+        self.mainwin.title("Serial debugging tool")
+        self.mainwin.iconbitmap(r'C:\Users\Ali\Documents\elec\python serial\icon.ico')
         self.mainwin.geometry("600x400")
 
-        # 标签
-        self.label1 = tkinter.Label(self.mainwin,text = "串口号:",font = ("宋体",15))
+        # Label
+        self.label1 = tkinter.Label(self.mainwin,text = "Serial port:",font = ("Arial",13))
         self.label1.place(x = 5,y = 5)
-        self.label2 = tkinter.Label(self.mainwin, text="波特率:", font=("宋体", 15))
+        self.label2 = tkinter.Label(self.mainwin, text="Baud rate:", font=("Arial", 13))
         self.label2.place(x=5, y=45)
-        self.label3 = tkinter.Label(self.mainwin, text="校验位:", font=("宋体", 15))
+        self.label3 = tkinter.Label(self.mainwin, text="Parity digit:", font=("Arial", 13))
         self.label3.place(x=5, y=85)
-        self.label4 = tkinter.Label(self.mainwin, text="数据位:", font=("宋体", 15))
+        self.label4 = tkinter.Label(self.mainwin, text="Data bits:", font=("Arial", 13))
         self.label4.place(x=5, y=125)
-        self.label5 = tkinter.Label(self.mainwin,text = "停止位:",font = ("宋体",15))
+        self.label5 = tkinter.Label(self.mainwin,text = "Stop bits:",font = ("Arial",13))
         self.label5.place(x = 5,y = 165)
 
-        # 文本显示，清除发送数据
-        self.label6 = tkinter.Label(self.mainwin, text="发送数据:", font=("宋体", 15))
+        # Text display, clear sending data
+        self.label6 = tkinter.Label(self.mainwin, text="send data:", font=("Arial", 13))
         self.label6.place(x=230, y=5)
 
-        self.label7 = tkinter.Label(self.mainwin, text="接收数据:", font=("宋体", 15))
+        self.label7 = tkinter.Label(self.mainwin, text="Receive data:", font=("Arial", 13))
         self.label7.place(x=230, y=200)
 
-        # 串口号
-        self.com1value = tkinter.StringVar()  # 窗体中自带的文本，创建一个值
+        # Serial number
+        self.com1value = tkinter.StringVar()  # Text that comes with the form, create a value
         self.combobox_port = ttk.Combobox(self.mainwin, textvariable=self.com1value,
-                                          width = 10,font = ("宋体",13))
-        # 输入选定内容
-        self.combobox_port["value"] = [""]  # 这里先选定
+                                          width = 13,font = ("Arial",10))
+        # enter selection
+        self.combobox_port["value"] = [""]  # Select here first
 
-        self.combobox_port.place(x = 105,y = 5)  # 显示
+        self.combobox_port.place(x = 105,y = 5)  # display
 
-        # 波特率
-        self.bandvalue = tkinter.StringVar()  # 窗体中自带的文本，创建一个值
-        self.combobox_band = ttk.Combobox(self.mainwin, textvariable=self.bandvalue, width=10, font=("宋体", 13))
-        # 输入选定内容
-        self.combobox_band["value"] = ["4800","9600","14400","19200","38400","57600","115200"]  # 这里先选定
-        self.combobox_band.current(6)  # 默认选中第0个
-        self.combobox_band.place(x=105, y=45)  # 显示
+        # baud rate
+        self.bandvalue = tkinter.StringVar()  # Text that comes with the form, create a value
+        self.combobox_band = ttk.Combobox(self.mainwin, textvariable=self.bandvalue, width=13, font=("Arial", 10))
+        # enter selection
+        self.combobox_band["value"] = ["4800","9600","14400","19200","38400","57600","115200"]  # Select here first
+        self.combobox_band.current(6)  # The 0th is selected by default
+        self.combobox_band.place(x=105, y=45)  # Display
 
-        # 校验位
-        self.checkvalue = tkinter.StringVar()  # 窗体中自带的文本，创建一个值
-        self.combobox_check = ttk.Combobox(self.mainwin, textvariable=self.checkvalue, width=10, font=("宋体", 13))
-        # 输入选定内容
-        self.combobox_check["value"] = ["无校验位"]  # 这里先选定
-        self.combobox_check.current(0)  # 默认选中第0个
-        self.combobox_check.place(x=105, y=85)  # 显示
+        # Check Digit
+        self.checkvalue = tkinter.StringVar()  # Text that comes with the form, create a value
+        self.combobox_check = ttk.Combobox(self.mainwin, textvariable=self.checkvalue, width=13, font=("Arial", 10))
+        # enter selection
+        self.combobox_check["value"] = ["no check digit"]  # Select here first
+        self.combobox_check.current(0)  # The 0th is selected by default
+        self.combobox_check.place(x=105, y=85)  # Display
 
-        # 数据位
-        self.datavalue = tkinter.StringVar()  # 窗体中自带的文本，创建一个值
-        self.combobox_data = ttk.Combobox(self.mainwin, textvariable=self.datavalue, width=10, font=("宋体", 13) )
-        # 输入选定内容
-        self.combobox_data["value"] = ["8", "9", "0"]  # 这里先选定
-        self.combobox_data.current(0)  # 默认选中第0个
-        self.combobox_data.place(x=105, y=125)  # 显示
+        # data bit
+        self.datavalue = tkinter.StringVar()  # Text that comes with the form, create a value
+        self.combobox_data = ttk.Combobox(self.mainwin, textvariable=self.datavalue, width=13, font=("Arial", 10) )
+        # enter selection
+        self.combobox_data["value"] = ["8", "9", "0"]  # Select here first
+        self.combobox_data.current(0)  # The 0th is selected by default
+        self.combobox_data.place(x=105, y=125)  # Display
 
-        # 停止位
-        self.stopvalue = tkinter.StringVar()  # 窗体中自带的文本，创建一个值
-        self.combobox_stop = ttk.Combobox(self.mainwin, textvariable=self.stopvalue, width=10, font=("宋体", 13))
-        # 输入选定内容
-        self.combobox_stop["value"] = ["1", "0"]  # 这里先选定
-        self.combobox_stop.current(0)  # 默认选中第0个
-        self.combobox_stop.place(x=105, y=165)  # 显示
+        # stop bit
+        self.stopvalue = tkinter.StringVar()  # Text that comes with the form, create a value
+        self.combobox_stop = ttk.Combobox(self.mainwin, textvariable=self.stopvalue, width=13, font=("Arial", 10))
+        # enter selection
+        self.combobox_stop["value"] = ["1", "0"]  # Select here first
+        self.combobox_stop.current(0)  # The 0th is selected by default
+        self.combobox_stop.place(x=105, y=165)  # Display
 
-        # 按键显示，打开串口
-        self.button_OK = tkinter.Button(self.mainwin, text="打开串口",
-                                        command=self.button_OK_click, font = ("宋体",13),
+        # Press Display to open the serial port
+        self.button_OK = tkinter.Button(self.mainwin, text="open port",
+                                        command=self.button_OK_click, font = ("Arial",10),
                                         width = 10,height = 1)
-        self.button_OK.place(x = 5,y = 210)  # 显示控件
-        # 关闭串口
-        self.button_Cancel = tkinter.Button(self.mainwin, text="关闭串口",  # 显示文本
-                                 command=self.button_Cancel_click, font = ("宋体",13),
+        self.button_OK.place(x = 5,y = 210)  # Display Control
+        # close the serial port
+        self.button_Cancel = tkinter.Button(self.mainwin, text="close port",  # Display text
+                                 command=self.button_Cancel_click, font = ("Arial",10),
                                  width=10, height=1)
-        self.button_Cancel.place(x = 120,y = 210)  # 显示控件
+        self.button_Cancel.place(x = 120,y = 210)  # Display Control
 
-        # 清除发送数据
-        self.button_Cancel = tkinter.Button(self.mainwin, text="清除发送数据",  # 显示文本
-                                            command=self.button_clcSend_click, font=("宋体", 13),
+        # clear send data
+        self.button_Cancel = tkinter.Button(self.mainwin, text="Clear send data",  # Display text
+                                            command=self.button_clcSend_click, font=("Arial", 10),
                                             width=13, height=1)
-        self.button_Cancel.place(x=400, y=2)  # 显示控件
+        self.button_Cancel.place(x=400, y=2)  # DisplayControl
 
-        # 清除接收数据
-        self.button_Cancel = tkinter.Button(self.mainwin, text="清除接收数据",  # 显示文本
-                                            command=self.button_clcRece_click, font=("宋体", 13),
+        # Clear received data
+        self.button_Cancel = tkinter.Button(self.mainwin, text="Clear received data",  # Display text
+                                            command=self.button_clcRece_click, font=("Arial", 10),
                                             width=13, height=1)
-        self.button_Cancel.place(x=400, y=197)  # 显示控件
+        self.button_Cancel.place(x=400, y=197)  # DisplayControl
 
-        # 发送按键
-        self.button_Send = tkinter.Button(self.mainwin, text="发送",  # 显示文本
-                                            command=self.button_Send_click, font=("宋体", 13),
+        # send button
+        self.button_Send = tkinter.Button(self.mainwin, text="send",  # Display text
+                                            command=self.button_Send_click, font=("Arial", 10),
                                             width=6, height=1)
-        self.button_Send.place(x=5, y=255)  # 显示控件
+        self.button_Send.place(x=5, y=255)  # DisplayControl
 
-        # 接收按键
-        self.button_Send = tkinter.Button(self.mainwin, text="接收",  # 显示文本
-                                          command=self.button_Rece_click, font=("宋体", 13),
+        # receive button
+        self.button_Send = tkinter.Button(self.mainwin, text="receive",  # Display text
+                                          command=self.button_Rece_click, font=("Arial", 10),
                                           width=6, height=1)
-        self.button_Send.place(x=5, y=310)  # 显示控件
+        self.button_Send.place(x=5, y=310)  # DisplayControl
 
-        # 显示框
-        # 实现记事本的功能组件
+        # Display frame
+        # Implement the functional components of Notepad
         self.SendDataView = tkinter.Text(self.mainwin,width = 40,height = 9,
-                                         font = ("宋体",13))  # text实际上是一个文本编辑器
-        self.SendDataView.place(x = 230,y = 35)  # 显示
+                                         font = ("Arial",10))  # text is actually a text editor
+        self.SendDataView.place(x = 230,y = 35)  # Display
 
         self.ReceDataView = tkinter.Text(self.mainwin, width=40, height=9,
-                                         font=("宋体", 13))  # text实际上是一个文本编辑器
-        self.ReceDataView.place(x=230, y=230)  # 显示
+                                         font=("Arial", 10))  # text is actually a text editor
+        self.ReceDataView.place(x=230, y=230)  # Display
 
-        # 发送的内容
+        # sent content
         test_str = tkinter.StringVar(value="Hello")
-        self.entrySend = tkinter.Entry(self.mainwin, width=13,textvariable = test_str,font = ("宋体",15))
-        self.entrySend.place(x = 80,y = 260)  # 显示
+        self.entrySend = tkinter.Entry(self.mainwin, width=13,textvariable = test_str,font = ("Arial",13))
+        self.entrySend.place(x = 80,y = 260)  # Display
 
-        # 获取文件路径
+        # get file path
         test_str = tkinter.StringVar(value="Hello")
-        self.entrySend = tkinter.Entry(self.mainwin, width=13, textvariable=test_str, font=("宋体", 15))
-        self.entrySend.place(x=80, y=260)  # 显示
+        self.entrySend = tkinter.Entry(self.mainwin, width=13, textvariable=test_str, font=("Arial", 13))
+        self.entrySend.place(x=80, y=260)  # Display
 
-        # 获取界面的参数
+        # Get the parameters of the interface
         self.band = self.combobox_band.get()
         self.check = self.combobox_check.get()
         self.data = self.combobox_data.get()
         self.stop = self.combobox_stop.get()
-        print("波特率："+self.band)
+        print("Baud rate:"+self.band)
         self.myserial = SerialAchieve(int(self.band),self.check,self.data,self.stop)
 
-        # 处理串口值
+        # Handle serial port values
         self.port_list = self.myserial.get_port()
-        port_str_list = []  # 用来存储切割好的串口号
+        port_str_list = []  # Used to store the cut serial number
         for i in range(len(self.port_list)):
-            # 将串口号切割出来
+            # Cut out the serial number
             lines = str(self.port_list[i])
             str_list = lines.split(" ")
             port_str_list.append(str_list[0])
         self.combobox_port["value"] = port_str_list
-        self.combobox_port.current(0)  # 默认选中第0个
+        self.combobox_port.current(0)  # The 0th is selected by default
 
     def show(self):
         self.mainwin.mainloop()
 
     def button_OK_click(self):
         '''
-        @ 串口打开函数
+        @ Serial port open function
         :return: 
         '''
         if self.port == None or self.port.isOpen() == False:
             self.myserial.open_port(self.combobox_port.get())
-            print("打开串口成功")
+            print("Open the serial port successfully")
         else:
             pass
 
     def button_Cancel_click(self):
         self.myserial.delete_port()
-        print("关闭串口成功")
+        print("Close the serial port successfully")
 
     def button_clcSend_click(self):
         self.SendDataView.delete("1.0","end")
@@ -184,21 +187,21 @@ class MainSerial:
     def button_Send_click(self):
         try:
             if self.myserial.port.isOpen() == True:
-                print("开始发送数据")
+                print("start sending data")
                 send_str1 = self.entrySend.get()
                 self.myserial.Write_data(send_str1)
                 self.SendDataView.insert(tkinter.INSERT, send_str1+" ")
-                print("发送数据成功")
+                print("Send data successfully")
             else:
-                print("串口没有打开")
+                print("The serial port is not open")
         except:
-            print("发送失败")
+            print("Failed to send")
     def button_Rece_click(self):
         try:
             readstr = self.myserial.Read_data()
             self.ReceDataView.insert(tkinter.INSERT, readstr + " ")
         except:
-            print("读取失败")
+            print("read failed")
 if __name__ == '__main__':
     my_ser1 = MainSerial()
     my_ser1.show()
