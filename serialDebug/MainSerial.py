@@ -7,7 +7,6 @@
 '''
 import tkinter
 from tkinter import ttk
-#root.iconbitmap("icon.ico")
 from SerialClass import SerialAchieve   # Import serial communication class
 
 class MainSerial:
